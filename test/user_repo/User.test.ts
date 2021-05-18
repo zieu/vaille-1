@@ -24,12 +24,16 @@ describe("user test", () => {
 
     const user = new User();
     const newUser = await user.createUser(userData);
-    // @ts-ignore
-    newUser.followers?.push(newUser.id);
-    newUser.save();
-    console.log(newUser);
 
     expect(newUser).toEqual(userData);
+  });
+
+  test("finds user by id", async () => {
+    const mockUser = await UserModel.findOne();
+    const user = new User();
+
+    const found = await user.findUserById(mockUser?.id);
+    expect(found).toEqual(mockUser);
   });
 
   test("updates user", async () => {
@@ -43,28 +47,10 @@ describe("user test", () => {
     expect(updatedUser?.username).toEqual(updateData.username);
   });
 
-  test("follow user", async () => {
-    const mockUser = await UserModel.findOne();
-    const user = new User();
-    const userData = {
-      username: "Adam Smith",
-      email: "adam@mail.com",
-      password: "123456789",
-    };
-    const newUser = user.createUser(userData);
-
-    console.log(mockUser);
-
-    // @ts-ignore
-    user.follow(mockUser?.id, newUser?.id);
-    // @ts-ignore
-    expect(mockUser.following[0]?.id).toEqual(newUser.id);
-  });
-
   test("deletes user", async () => {
-    const mockUser = await UserModel.findOne();
+    const mockUser = await UserModel.find();
     const user = new User();
-    const deleted = await user.deleteUser(mockUser?.id);
+    const deleted = await user.deleteUser(mockUser[1]?.id);
 
     expect(deleted).toEqual(null);
   });
