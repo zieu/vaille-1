@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { UserData } from "../../src/User/UserClass";
-import { v4 as uuidv4 } from "uuid";
 import UserModel from "../../src/db/models/UserModel";
 import User from "../../src/User/User";
 jest.useFakeTimers();
@@ -18,7 +17,6 @@ describe("user test", () => {
     await mongoose.connection.db.dropCollection("users");
     console.log("TEST DB CONNECTION");
     userData = {
-      id: uuidv4(),
       username: "John Doe",
       email: "johndoe@mail.com",
       password: "123r45",
@@ -44,7 +42,8 @@ describe("user test", () => {
     const mockUser = await UserModel.findOne();
     const user = new User();
 
-    const found = await user.findUserById(mockUser?.id!);
+    const found = await user.findUserById(mockUser?._id!);
+
     expect(found).toEqual(mockUser);
   });
 
@@ -55,15 +54,43 @@ describe("user test", () => {
       username: "Doe John",
     };
 
-    const updatedUser = await user.editUser(mockUser?.id!, updateData);
+    const updatedUser = await user.editUser(mockUser?._id!, updateData);
 
     expect(updatedUser?.username).toEqual(updateData.username);
+  });
+
+  test("follows user", async () => {
+    const userToFollowData = {
+      username: "Adam Smith",
+      email: "adam@gmail.com",
+      password: "af;jiojaweofi;",
+      followers: [],
+    };
+
+    await user.createUser(userToFollowData);
+    const users = await UserModel.find();
+
+    const currentUser = users[0];
+    const userToFollow = users[1];
+
+    await user.follow(currentUser?._id!, userToFollow?._id!);
+
+    console.log(userToFollow);
+    expect(currentUser.following![0]).toBe(userToFollow.followers![0]);
+  });
+
+  test("returns error if user tries to follow himself/herself", async () => {
+    const mockUser = await UserModel.findOne();
+
+    expect(
+      async () => await user.follow(mockUser?._id!, mockUser?._id!)
+    ).rejects.toThrow(Error);
   });
 
   test("deletes user", async () => {
     const mockUser = await UserModel.find();
     const user = new User();
-    const deleted = await user.deleteUser(mockUser[1]?.id!);
+    const deleted = await user.deleteUser(mockUser[0]?._id!);
 
     expect(deleted).toEqual(null);
   });

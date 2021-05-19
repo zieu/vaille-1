@@ -1,6 +1,6 @@
-import { v4 as uuidv4 } from "uuid";
 import UserModel from "../db/models/UserModel";
 import UserClass, { UserData } from "./UserClass";
+import { Types } from "mongoose";
 
 export default class User {
   public async createUser(userData: UserData): Promise<UserClass> {
@@ -8,37 +8,55 @@ export default class User {
     if (!user.validate) {
       throw new Error("User validition failed");
     }
-    user.id = uuidv4();
+
     await UserModel.create(user);
     return user;
   }
 
-  public async findUserById(userId: string): Promise<UserClass> {
-    const user = await UserModel.findOne({ id: userId });
+  public async findUserById(userId: Types.ObjectId): Promise<UserClass> {
+    const user = await UserModel.findById(userId);
 
     //@ts-ignore
     return user;
   }
 
-  public async editUser(userId: string, data: object) {
-    const editedUser = await UserModel.findOneAndUpdate({ id: userId }, data, {
-      new: true,
-    });
+  public async editUser(userId: Types.ObjectId, data: object) {
+    const editedUser = await UserModel.findByIdAndUpdate(
+      { _id: userId },
+      data,
+      {
+        new: true,
+      }
+    );
     return editedUser;
   }
 
-  public async deleteUser(userId: string): Promise<null> {
-    await UserModel.findOneAndDelete({ id: userId });
+  public async deleteUser(userId: Types.ObjectId): Promise<null> {
+    await UserModel.findByIdAndDelete(userId);
     return null;
   }
 
-  public async follow(currentUserId: string, userToFollowId: string) {
+  public async follow(
+    currentUserId: Types.ObjectId,
+    userToFollowId: Types.ObjectId
+  ) {
     const currentUser = await this.findUserById(currentUserId);
     const userToFollow = await this.findUserById(userToFollowId);
 
-    // @ts-ignore
-    currentUser.following?.unshift(userToFollow.id);
-    // @ts-ignore
-    userToFollow.followers?.unshift(currentUser.id);
+    if (!currentUser || !userToFollow) {
+      throw new Error("Invalid id for current user or user to follow!");
+    }
+
+    if (currentUserId === userToFollowId) {
+      throw new Error("Users cannot follow themselves");
+    }
+
+    await this.editUser(currentUserId, {
+      following: [...currentUser?.following!, userToFollowId],
+    });
+
+    await this.editUser(userToFollowId, {
+      following: [...userToFollow?.followers!, currentUserId],
+    });
   }
 }

@@ -16,6 +16,7 @@ export interface UserData {
 
 export default class UserClass {
   id?: string;
+  _id?: Types.ObjectId;
   username: string;
   email: string;
   password: string;
