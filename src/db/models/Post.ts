@@ -5,7 +5,7 @@ interface IPost extends Document {
   body: string;
   image?: string;
   comments?: Types.ObjectId[];
-  likes: number;
+  likes?: number;
   author: Types.ObjectId[];
 }
 

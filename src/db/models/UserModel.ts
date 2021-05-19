@@ -1,6 +1,7 @@
 import { Schema, Document, model, SchemaTypes, Types } from "mongoose";
 
 interface IUser extends Document {
+  id?: string | undefined;
   username: string;
   email: string;
   password: string;
@@ -16,6 +17,11 @@ interface IUser extends Document {
 
 const UserSchema = new Schema(
   {
+    id: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     username: {
       type: String,
       required: true,
@@ -39,14 +45,18 @@ const UserSchema = new Schema(
         ref: "Post",
       },
     ],
-    followers: {
-      type: SchemaTypes.ObjectId,
-      ref: "User",
-    },
-    following: {
-      type: SchemaTypes.ObjectId,
-      ref: "User",
-    },
+    followers: [
+      {
+        type: SchemaTypes.ObjectId,
+        ref: "User",
+      },
+    ],
+    following: [
+      {
+        type: SchemaTypes.ObjectId,
+        ref: "User",
+      },
+    ],
     likedPosts: [],
     likedComments: [],
   },

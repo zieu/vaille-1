@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import UserModel from "../db/models/UserModel";
 import UserClass, { UserData } from "./UserClass";
 
@@ -7,26 +8,27 @@ export default class User {
     if (!user.validate) {
       throw new Error("User validition failed");
     }
+    user.id = uuidv4();
     await UserModel.create(user);
     return user;
   }
 
-  public async findUserById(id: string): Promise<UserClass> {
-    const user = await UserModel.findById(id);
+  public async findUserById(userId: string): Promise<UserClass> {
+    const user = await UserModel.findOne({ id: userId });
 
     //@ts-ignore
     return user;
   }
 
-  public async editUser(id: string, data: object) {
-    const editedUser = await UserModel.findByIdAndUpdate(id, data, {
+  public async editUser(userId: string, data: object) {
+    const editedUser = await UserModel.findOneAndUpdate({ id: userId }, data, {
       new: true,
     });
     return editedUser;
   }
 
-  public async deleteUser(id: string): Promise<null> {
-    await UserModel.findByIdAndDelete(id);
+  public async deleteUser(userId: string): Promise<null> {
+    await UserModel.findOneAndDelete({ id: userId });
     return null;
   }
 
