@@ -8,7 +8,7 @@ export interface PostData {
   author: Types.ObjectId[];
 }
 
-export default class Post {
+export default class PostClass {
   title?: string;
   body: string;
   image?: string;
