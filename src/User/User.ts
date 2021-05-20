@@ -5,8 +5,8 @@ import { Types } from "mongoose";
 export default class User {
   public async createUser(userData: UserData): Promise<UserClass> {
     const user = new UserClass(userData);
-    if (!user.validate) {
-      throw new Error("User validition failed");
+    if (!user.validate()) {
+      throw new Error("User validition failed!");
     }
 
     await UserModel.create(user);
@@ -16,8 +16,11 @@ export default class User {
   public async findUserById(userId: Types.ObjectId): Promise<UserClass> {
     const user = await UserModel.findById(userId);
 
-    //@ts-ignore
-    return user;
+    if (!user) {
+      throw new Error("User id invalid!");
+    }
+
+    return new UserClass(user!);
   }
 
   public async editUser(userId: Types.ObjectId, data: object) {
@@ -28,11 +31,19 @@ export default class User {
         new: true,
       }
     );
+
+    if (!editedUser) {
+      throw new Error("User id invalid!");
+    }
     return editedUser;
   }
 
   public async deleteUser(userId: Types.ObjectId): Promise<null> {
-    await UserModel.findByIdAndDelete(userId);
+    const user = await UserModel.findByIdAndDelete(userId);
+    if (!user) {
+      throw new Error("Invalid user id!");
+    }
+
     return null;
   }
 
