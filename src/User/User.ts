@@ -1,5 +1,6 @@
 import UserModel from "../db/models/UserModel";
 import UserClass, { UserData } from "./UserClass";
+import Post from "../Post/Post";
 import { Types } from "mongoose";
 
 export default class User {
@@ -68,6 +69,24 @@ export default class User {
 
     await this.editUser(userToFollowId, {
       following: [...userToFollow?.followers!, currentUserId],
+    });
+  }
+
+  public async likePost(postId: Types.ObjectId, userId: Types.ObjectId) {
+    const post = new Post();
+    const foundPost = await post.findPostById(postId);
+    const user = await this.findUserById(userId);
+
+    if (!foundPost || !user) {
+      throw new Error("Invalid credentirals!");
+    }
+
+    await this.editUser(userId, {
+      likedPosts: [...user?.likedPosts!, postId],
+    });
+
+    await post.updatePost(postId, {
+      likes: foundPost.likes! + 1,
     });
   }
 }
