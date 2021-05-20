@@ -75,7 +75,6 @@ describe("user test", () => {
 
     await user.follow(currentUser?._id!, userToFollow?._id!);
 
-    console.log(userToFollow);
     expect(currentUser.following![0]).toBe(userToFollow.followers![0]);
   });
 
