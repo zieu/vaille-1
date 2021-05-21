@@ -28,6 +28,13 @@ export default class User {
     return doc;
   }
 
+  public async findUserByUsername(username: string): Promise<UserClass> {
+    const user = await UserModel.findOne({ username });
+    const doc = new UserClass(user!);
+    doc._id = user?._id;
+    return doc;
+  }
+
   public async editUser(
     userId: Types.ObjectId,
     data: object
