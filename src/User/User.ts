@@ -10,7 +10,8 @@ export default class User {
       throw new Error("User validition failed!");
     }
 
-    await UserModel.create(user);
+    const created = await UserModel.create(user);
+    user._id = created._id;
     return user;
   }
 
@@ -21,7 +22,10 @@ export default class User {
       throw new Error("User id invalid!");
     }
 
-    return new UserClass(user!);
+    const doc = new UserClass(user);
+    doc._id = user._id;
+
+    return doc;
   }
 
   public async editUser(userId: Types.ObjectId, data: object) {
