@@ -28,19 +28,19 @@ export default class User {
     return doc;
   }
 
-  public async editUser(userId: Types.ObjectId, data: object) {
-    const editedUser = await UserModel.findByIdAndUpdate(
-      { _id: userId },
-      data,
-      {
-        new: true,
-      }
-    );
+  public async editUser(
+    userId: Types.ObjectId,
+    data: object
+  ): Promise<UserClass> {
+    let editedUser = await UserModel.findByIdAndUpdate({ _id: userId }, data, {
+      new: true,
+    });
 
     if (!editedUser) {
       throw new Error("User id invalid!");
     }
-    return editedUser;
+    editedUser._id = userId;
+    return new UserClass(editedUser);
   }
 
   public async deleteUser(userId: Types.ObjectId): Promise<null> {
