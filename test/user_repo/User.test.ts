@@ -21,7 +21,7 @@ describe("user test", () => {
     await mongoose.connection.db.dropCollection("users");
     await mongoose.connection.db.dropCollection("posts");
     userData = {
-      username: "John Doe",
+      username: "john_doe",
       email: "johndoe@mail.com",
       password: "123r45",
       profilePic: "profilePic",
@@ -51,11 +51,18 @@ describe("user test", () => {
     expect(found).toBeTruthy();
   });
 
+  test("finds user by username", async () => {
+    const mockUser = await UserModel.findOne();
+    const found = await user.findUserByUsername(mockUser?.username!);
+
+    expect(found).toBeTruthy();
+  });
+
   test("updates user", async () => {
     const mockUser = await UserModel.findOne();
     const user = new User();
     const updateData = {
-      username: "Doe John",
+      username: "doe_john",
     };
 
     const updatedUser = await user.editUser(mockUser?._id!, updateData);
@@ -65,7 +72,7 @@ describe("user test", () => {
 
   test("follows user", async () => {
     const userToFollowData = {
-      username: "Adam Smith",
+      username: "adam_smith",
       email: "adam@gmail.com",
       password: "af;jiojaweofi;",
       followers: [],
