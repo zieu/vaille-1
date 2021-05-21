@@ -20,7 +20,6 @@ describe("user test", () => {
     });
     await mongoose.connection.db.dropCollection("users");
     await mongoose.connection.db.dropCollection("posts");
-    console.log("TEST DB CONNECTION");
     userData = {
       username: "John Doe",
       email: "johndoe@mail.com",
@@ -104,7 +103,5 @@ describe("user test", () => {
     const newUser = await user.createUser(userData);
 
     await user.likePost(newPost._id!, newUser._id!);
-    console.log("NEW POST", newPost);
-    console.log("NEW USER", newUser);
   });
 });
