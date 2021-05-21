@@ -8,8 +8,8 @@ export default class Post {
     if (!post.validate()) {
       throw new Error("Post validation failed!");
     }
-    await PostModel.create(post);
-
+    const created = await PostModel.create(post);
+    post._id = created._id;
     return post;
   }
 
