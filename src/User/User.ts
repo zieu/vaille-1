@@ -30,6 +30,10 @@ export default class User {
 
   public async findUserByUsername(username: string): Promise<UserClass> {
     const user = await UserModel.findOne({ username });
+    if (!user) {
+      throw new Error("Invalid username!");
+    }
+
     const doc = new UserClass(user!);
     doc._id = user?._id;
     return doc;
