@@ -15,6 +15,7 @@ export const UserType = new GraphQLObjectType({
     profilePic: { type: GraphQLString },
     posts: { type: new GraphQLList(GraphQLString) },
     followers: { type: new GraphQLList(GraphQLString) },
+    following: { type: new GraphQLList(GraphQLString) },
     likedPosts: { type: new GraphQLList(GraphQLString) },
     likedComments: { type: new GraphQLList(GraphQLString) },
     createdAt: { type: GraphQLString },
