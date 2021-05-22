@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
+import { graphqlHTTP } from "express-graphql";
+import schema from "./schemas/index";
 import cors from "cors";
-import path from "path";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -16,3 +17,11 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
   );
   next();
 });
+
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema,
+    graphiql: true,
+  })
+);

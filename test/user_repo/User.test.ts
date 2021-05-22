@@ -18,8 +18,6 @@ describe("user test", () => {
       useFindAndModify: false,
       useCreateIndex: true,
     });
-    await mongoose.connection.db.dropCollection("users");
-    await mongoose.connection.db.dropCollection("posts");
     userData = {
       username: "john_doe",
       email: "johndoe@mail.com",
@@ -33,6 +31,11 @@ describe("user test", () => {
 
     user = new User();
     post = new Post();
+  });
+
+  afterAll(async () => {
+    await mongoose.connection.db.dropCollection("users");
+    await mongoose.connection.db.dropCollection("posts");
   });
 
   test("creates new user", async () => {
@@ -106,6 +109,7 @@ describe("user test", () => {
   });
 
   test("likes a post", async () => {
+    userData.username = "doe_john";
     const newPost = await post.createPost(postData);
     const newUser = await user.createUser(userData);
 
