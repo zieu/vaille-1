@@ -3,6 +3,7 @@ import { UserType } from "./TypeDefs/UserType";
 import User from "../User/User";
 import { resolveModuleName } from "typescript";
 
+const user = new User();
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
   fields: {
@@ -10,8 +11,14 @@ const RootQuery = new GraphQLObjectType({
       type: UserType,
       args: { id: { type: GraphQLString } },
       resolve(parent, args) {
-        const user = new User();
         return user.findUserById(args.id);
+      },
+    },
+    userGetByUsername: {
+      type: UserType,
+      args: { username: { type: GraphQLString } },
+      async resolve(parent, args) {
+        return await user.findUserByUsername(args.username);
       },
     },
   },
@@ -29,7 +36,6 @@ const Mutation = new GraphQLObjectType({
       },
       async resolve(parent, args) {
         const { username, email, password } = args;
-        const user = new User();
         return await user.createUser({ username, email, password });
       },
     },
