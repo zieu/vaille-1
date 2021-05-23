@@ -7,7 +7,7 @@ import {
 import { UserType } from "./UserType";
 import User from "../../User/User";
 
-export const PostType = new GraphQLObjectType({
+export const PostType: GraphQLObjectType = new GraphQLObjectType({
   name: "Post",
   fields: () => ({
     _id: { type: GraphQLString },
