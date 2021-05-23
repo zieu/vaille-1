@@ -20,13 +20,15 @@ const PostSchema = new Schema({
     trim: true,
   },
   image: String,
-  comments: {
-    type: SchemaTypes.ObjectId,
-    ref: "Post",
-  },
+  comments: [
+    {
+      type: SchemaTypes.ObjectId,
+      ref: "Post",
+    },
+  ],
   likes: {
     type: Number,
-    default: 0,
+    default: 1,
   },
   author: {
     type: SchemaTypes.ObjectId,
