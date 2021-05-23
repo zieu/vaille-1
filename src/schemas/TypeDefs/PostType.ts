@@ -4,7 +4,6 @@ import {
   GraphQLObjectType,
   GraphQLList,
 } from "graphql";
-import { resolveModuleName } from "typescript";
 import { UserType } from "./UserType";
 import User from "../../User/User";
 
