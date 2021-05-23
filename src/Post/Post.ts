@@ -48,4 +48,8 @@ export default class Post {
 
     return null;
   }
+
+  public async findPostsByField(field: object) {
+    return await PostModel.find(field);
+  }
 }
