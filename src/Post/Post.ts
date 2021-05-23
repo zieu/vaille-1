@@ -19,7 +19,7 @@ export default class Post {
   }
 
   public async findPostById(postId: Types.ObjectId) {
-    const post = await PostModel.findById(postId);
+    const post = await PostModel.findById(postId).populate("author");
     if (!post) {
       throw new Error("Invalid post id!");
     }
@@ -47,9 +47,5 @@ export default class Post {
     }
 
     return null;
-  }
-
-  public async findPostsByField(field: object) {
-    return await PostModel.find(field);
   }
 }
