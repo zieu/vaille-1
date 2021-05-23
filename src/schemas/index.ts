@@ -8,7 +8,6 @@ import { UserType } from "./TypeDefs/UserType";
 import { PostType } from "./TypeDefs/PostType";
 import User from "../User/User";
 import Post from "../Post/Post";
-import { resolveModuleName } from "typescript";
 
 const user = new User();
 const post = new Post();
