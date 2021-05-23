@@ -13,6 +13,11 @@ export default class Post {
     return post;
   }
 
+  public async allPosts() {
+    const posts = await PostModel.find();
+    return posts;
+  }
+
   public async findPostById(postId: Types.ObjectId) {
     const post = await PostModel.findById(postId);
     if (!post) {
