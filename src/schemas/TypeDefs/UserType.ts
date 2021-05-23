@@ -4,8 +4,12 @@ import {
   GraphQLObjectType,
   GraphQLList,
 } from "graphql";
+import { PostType } from "./PostType";
+import Post from "../../Post/Post";
 
-export const UserType = new GraphQLObjectType({
+const post = new Post();
+
+export const UserType: GraphQLObjectType = new GraphQLObjectType({
   name: "User",
   fields: () => ({
     _id: { type: GraphQLString },
@@ -13,7 +17,12 @@ export const UserType = new GraphQLObjectType({
     email: { type: GraphQLString },
     password: { type: GraphQLString },
     profilePic: { type: GraphQLString },
-    posts: { type: new GraphQLList(GraphQLString) },
+    posts: {
+      type: new GraphQLList(PostType),
+      async resolve(parent, args) {
+        return await post.findPostsByField({ author: parent._id });
+      },
+    },
     followers: { type: new GraphQLList(GraphQLString) },
     following: { type: new GraphQLList(GraphQLString) },
     likedPosts: { type: new GraphQLList(GraphQLString) },
