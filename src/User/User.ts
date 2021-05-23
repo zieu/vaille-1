@@ -16,7 +16,10 @@ export default class User {
   }
 
   public async findUserById(userId: Types.ObjectId): Promise<UserClass> {
-    const user = await UserModel.findById(userId);
+    const user = await UserModel.findById(userId)
+      .populate("posts")
+      .populate("followers")
+      .populate("following");
 
     if (!user) {
       throw new Error("User id invalid!");
@@ -24,12 +27,17 @@ export default class User {
 
     const doc = new UserClass(user);
     doc._id = user._id;
+    console.log(doc);
 
     return doc;
   }
 
   public async findUserByUsername(username: string): Promise<UserClass> {
-    const user = await UserModel.findOne({ username });
+    const user = await UserModel.findOne({ username })
+      .populate("posts")
+      .populate("followers")
+      .populate("following");
+
     if (!user) {
       throw new Error("Invalid username!");
     }
