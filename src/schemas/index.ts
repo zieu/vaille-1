@@ -1,4 +1,9 @@
-import { GraphQLObjectType, GraphQLSchema, GraphQLString } from "graphql";
+import {
+  GraphQLList,
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLString,
+} from "graphql";
 import { UserType } from "./TypeDefs/UserType";
 import { PostType } from "./TypeDefs/PostType";
 import User from "../User/User";
@@ -11,6 +16,7 @@ const post = new Post();
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
   fields: {
+    // User Query
     userGetById: {
       type: UserType,
       args: { id: { type: GraphQLString } },
@@ -23,6 +29,22 @@ const RootQuery = new GraphQLObjectType({
       args: { username: { type: GraphQLString } },
       async resolve(parent, args) {
         return await user.findUserByUsername(args.username);
+      },
+    },
+
+    // Post Query
+    postGetById: {
+      type: PostType,
+      args: { id: { type: GraphQLString } },
+      async resolve(parent, args) {
+        return await post.findPostById(args.id);
+      },
+    },
+
+    posts: {
+      type: new GraphQLList(PostType),
+      async resolve(parent, args) {
+        return await post.allPosts();
       },
     },
   },
@@ -52,10 +74,21 @@ const Mutation = new GraphQLObjectType({
         title: { type: GraphQLString },
         body: { type: GraphQLString },
         image: { type: GraphQLString },
+        author: { type: GraphQLString },
       },
       async resolve(parent, args) {
-        const { title, body, image } = args;
-        return await post.createPost({ title, body, image });
+        const { title, body, image, author } = args;
+        return await post.createPost({ title, body, image, author });
+      },
+    },
+
+    deletePostById: {
+      type: PostType,
+      args: {
+        id: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        return await post.deletePost(args.id);
       },
     },
   },
