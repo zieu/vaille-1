@@ -66,6 +66,14 @@ const Mutation = new GraphQLObjectType({
       },
     },
 
+    userDeleteById: {
+      type: UserType,
+      args: { id: { type: GraphQLString } },
+      async resolve(parent, args) {
+        return await user.deleteUser(args.id);
+      },
+    },
+
     // Post Mutations
     addPost: {
       type: PostType,
