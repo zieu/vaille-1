@@ -21,7 +21,7 @@ const addUser = {
 const userDeleteById = {
   type: UserType,
   args: { id: { type: GraphQLString } },
-  async resolve(parent: object, args: any) {
+  async resolve(parent: any, args: any) {
     return await user.deleteUser(args.id);
   },
 };
