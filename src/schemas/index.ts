@@ -4,10 +4,11 @@ import {
   GraphQLSchema,
   GraphQLString,
 } from "graphql";
-import { UserType } from "./TypeDefs/UserType";
 import { PostType } from "./TypeDefs/PostType";
 import { addUser, userDeleteById } from "./mutatoins/UserMutation";
 import { addPost, deletePostById } from "./mutatoins/PostMutation";
+import { userGetById, userGetByUsername } from "./queries/UserQuery";
+import { postGetById, posts } from "./queries/PostQuery";
 import User from "../User/User";
 import Post from "../Post/Post";
 
@@ -18,36 +19,11 @@ const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
   fields: {
     // User Query
-    userGetById: {
-      type: UserType,
-      args: { id: { type: GraphQLString } },
-      resolve(parent, args) {
-        return user.findUserById(args.id);
-      },
-    },
-    userGetByUsername: {
-      type: UserType,
-      args: { username: { type: GraphQLString } },
-      async resolve(parent, args) {
-        return await user.findUserByUsername(args.username);
-      },
-    },
-
+    userGetById,
+    userGetByUsername,
     // Post Query
-    postGetById: {
-      type: PostType,
-      args: { id: { type: GraphQLString } },
-      async resolve(parent, args) {
-        return await post.findPostById(args.id);
-      },
-    },
-
-    posts: {
-      type: new GraphQLList(PostType),
-      async resolve(parent, args) {
-        return await post.allPosts();
-      },
-    },
+    postGetById,
+    posts,
   },
 });
 
