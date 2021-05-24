@@ -27,7 +27,6 @@ export default class User {
 
     const doc = new UserClass(user);
     doc._id = user._id;
-    console.log(doc);
 
     return doc;
   }
