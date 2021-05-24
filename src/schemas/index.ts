@@ -6,6 +6,8 @@ import {
 } from "graphql";
 import { UserType } from "./TypeDefs/UserType";
 import { PostType } from "./TypeDefs/PostType";
+import { addUser, userDeleteById } from "./mutatoins/UserMutation";
+import { addPost, deletePostById } from "./mutatoins/PostMutation";
 import User from "../User/User";
 import Post from "../Post/Post";
 
@@ -53,51 +55,11 @@ const Mutation = new GraphQLObjectType({
   name: "Mutation",
   fields: {
     // User Mutations
-    addUser: {
-      type: UserType,
-      args: {
-        username: { type: GraphQLString },
-        email: { type: GraphQLString },
-        password: { type: GraphQLString },
-      },
-      async resolve(parent, args) {
-        const { username, email, password } = args;
-        return await user.createUser({ username, email, password });
-      },
-    },
-
-    userDeleteById: {
-      type: UserType,
-      args: { id: { type: GraphQLString } },
-      async resolve(parent, args) {
-        return await user.deleteUser(args.id);
-      },
-    },
-
+    addUser,
+    userDeleteById,
     // Post Mutations
-    addPost: {
-      type: PostType,
-      args: {
-        title: { type: GraphQLString },
-        body: { type: GraphQLString },
-        image: { type: GraphQLString },
-        author: { type: GraphQLString },
-      },
-      async resolve(parent, args) {
-        const { title, body, image, author } = args;
-        return await post.createPost({ title, body, image, author });
-      },
-    },
-
-    deletePostById: {
-      type: PostType,
-      args: {
-        id: { type: GraphQLString },
-      },
-      async resolve(parent, args) {
-        return await post.deletePost(args.id);
-      },
-    },
+    addPost,
+    deletePostById,
   },
 });
 
