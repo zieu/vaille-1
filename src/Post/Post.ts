@@ -14,7 +14,7 @@ export default class Post {
   }
 
   public async allPosts() {
-    const posts = await PostModel.find();
+    const posts = await PostModel.find().populate("author");
     return posts;
   }
 

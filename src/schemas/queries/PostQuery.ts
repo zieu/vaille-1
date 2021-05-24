@@ -13,7 +13,7 @@ const postGetById = {
 
 const posts = {
   type: new GraphQLList(PostType),
-  async resolve(parent: any, args: any) {
+  async resolve() {
     return await post.allPosts();
   },
 };
