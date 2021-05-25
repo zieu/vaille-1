@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLSchema } from "graphql";
-import { addUser, userDeleteById } from "./mutatoins/UserMutation";
-import { addPost, deletePostById } from "./mutatoins/PostMutation";
+import { addUser, userDeleteById } from "./mutations/UserMutation";
+import { addPost, deletePostById } from "./mutations/PostMutation";
 import { userGetById, userGetByUsername } from "./queries/UserQuery";
 import { postGetById, posts } from "./queries/PostQuery";
 
