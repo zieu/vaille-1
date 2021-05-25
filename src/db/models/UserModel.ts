@@ -33,7 +33,10 @@ const UserSchema = new Schema(
       type: String,
       requried: true,
     },
-    profilePic: String,
+    profilePic: {
+      type: String,
+      default: null,
+    },
     posts: [
       {
         type: SchemaTypes.ObjectId,
