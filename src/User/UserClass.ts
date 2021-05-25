@@ -1,6 +1,5 @@
 import { Types } from "mongoose";
 export interface UserData {
-  id?: string;
   username: string;
   email: string;
   password: string;
@@ -15,7 +14,6 @@ export interface UserData {
 }
 
 export default class UserClass {
-  id?: string;
   _id?: Types.ObjectId;
   username: string;
   email: string;
@@ -29,7 +27,6 @@ export default class UserClass {
   createdAt?: Date;
   updatedAt?: Date;
   constructor(userData: UserData) {
-    this.id = userData.id;
     this.username = userData.username;
     this.email = userData.email;
     this.password = userData.password;
@@ -45,7 +42,6 @@ export default class UserClass {
 
   validate(): boolean {
     const props = [
-      this.id,
       this.username,
       this.email,
       this.password,

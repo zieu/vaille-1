@@ -13,8 +13,13 @@ export default class Post {
     return post;
   }
 
+  public async allPosts() {
+    const posts = await PostModel.find().populate("author");
+    return posts;
+  }
+
   public async findPostById(postId: Types.ObjectId) {
-    const post = await PostModel.findById(postId);
+    const post = await PostModel.findById(postId).populate("author");
     if (!post) {
       throw new Error("Invalid post id!");
     }
