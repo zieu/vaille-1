@@ -1,5 +1,5 @@
 import { GraphQLObjectType, GraphQLSchema } from "graphql";
-import { addUser, userDeleteById } from "./mutations/UserMutation";
+import { addUser, userDeleteById, updateUser } from "./mutations/UserMutation";
 import { addPost, deletePostById, updatePost } from "./mutations/PostMutation";
 import { userGetById, userGetByUsername } from "./queries/UserQuery";
 import { postGetById, posts } from "./queries/PostQuery";
@@ -22,6 +22,7 @@ const Mutation = new GraphQLObjectType({
     // User Mutations
     addUser,
     userDeleteById,
+    updateUser,
     // Post Mutations
     addPost,
     deletePostById,
