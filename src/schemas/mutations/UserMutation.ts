@@ -49,4 +49,15 @@ const followUser = {
   },
 };
 
-export { addUser, userDeleteById, updateUser, followUser };
+const likePost = {
+  type: UserType,
+  args: {
+    postId: { type: GraphQLString },
+    userId: { type: GraphQLString },
+  },
+  async resolve(parent: any, args: any) {
+    return await user.likePost(args.postId, args.userId);
+  },
+};
+
+export { addUser, userDeleteById, updateUser, followUser, likePost };
