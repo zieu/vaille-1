@@ -86,11 +86,11 @@ export default class User {
     }
 
     await this.editUser(currentUserId, {
-      followers: [...currentUser?.following!, userToFollowId],
+      following: [...currentUser?.following!, userToFollowId],
     });
 
     await this.editUser(userToFollowId, {
-      following: [...userToFollow?.followers!, currentUserId],
+      followers: [...userToFollow?.followers!, currentUserId],
     });
   }
 
