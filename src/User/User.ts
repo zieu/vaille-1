@@ -7,7 +7,7 @@ export default class User {
   public async createUser(userData: UserData): Promise<UserClass> {
     const user = new UserClass(userData);
     if (!user.validate()) {
-      throw new Error("User validition failed!");
+      throw new Error("User validation failed!");
     }
 
     const created = await UserModel.create(user);
