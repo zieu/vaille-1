@@ -86,7 +86,7 @@ export default class User {
     }
 
     await this.editUser(currentUserId, {
-      following: [...currentUser?.following!, userToFollowId],
+      followers: [...currentUser?.following!, userToFollowId],
     });
 
     await this.editUser(userToFollowId, {
@@ -100,7 +100,7 @@ export default class User {
     const user = await this.findUserById(userId);
 
     if (!foundPost || !user) {
-      throw new Error("Invalid credentirals!");
+      throw new Error("Invalid credentials!");
     }
 
     await this.editUser(userId, {
