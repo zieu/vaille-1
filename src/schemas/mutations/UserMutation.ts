@@ -38,4 +38,15 @@ const updateUser = {
   },
 };
 
-export { addUser, userDeleteById, updateUser };
+const followUser = {
+  type: UserType,
+  args: {
+    currentUserId: { type: GraphQLString },
+    userToFollowId: { type: GraphQLString },
+  },
+  async resolve(parent: any, args: any) {
+    return await user.follow(args.currentUserId, args.userToFollowId);
+  },
+};
+
+export { addUser, userDeleteById, updateUser, followUser };
