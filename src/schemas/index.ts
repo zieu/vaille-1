@@ -1,11 +1,6 @@
 import { GraphQLObjectType, GraphQLSchema } from "graphql";
-<<<<<<< HEAD
-import { addUser, userDeleteById } from "./mutations/UserMutation";
-import { addPost, deletePostById } from "./mutations/PostMutation";
-=======
 import { addUser, userDeleteById, updateUser } from "./mutations/UserMutation";
 import { addPost, deletePostById, updatePost } from "./mutations/PostMutation";
->>>>>>> api
 import { userGetById, userGetByUsername } from "./queries/UserQuery";
 import { postGetById, posts } from "./queries/PostQuery";
 
