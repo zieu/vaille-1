@@ -1,5 +1,6 @@
 import { GraphQLString } from "graphql";
 import { UserType } from "../TypeDefs/UserType";
+import { UserInputType } from "../TypeDefs/UserInputType";
 import User from "../../User/User";
 
 const user = new User();
@@ -26,4 +27,15 @@ const userDeleteById = {
   },
 };
 
-export { addUser, userDeleteById };
+const updateUser = {
+  type: UserType,
+  args: {
+    id: { type: GraphQLString },
+    data: { type: UserInputType },
+  },
+  async resolve(parent: any, args: any) {
+    return await user.editUser(args.id, args.data);
+  },
+};
+
+export { addUser, userDeleteById, updateUser };
