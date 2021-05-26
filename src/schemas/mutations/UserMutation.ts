@@ -60,4 +60,22 @@ const likePost = {
   },
 };
 
-export { addUser, userDeleteById, updateUser, followUser, likePost };
+const unFollowUser = {
+  type: UserType,
+  args: {
+    currentUserId: { type: GraphQLString },
+    userToUnFollowId: { type: GraphQLString },
+  },
+  async resolve(parent: any, args: any) {
+    return await user.unFollow(args.currentUserId, args.userToUnFollowID);
+  },
+};
+
+export {
+  addUser,
+  userDeleteById,
+  updateUser,
+  followUser,
+  likePost,
+  unFollowUser,
+};
