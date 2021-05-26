@@ -113,4 +113,18 @@ export default class User {
       likes: foundPost.likes! + 1,
     });
   }
+
+  public async unFollow(
+    currentUserId: Types.ObjectId,
+    userToUnFollowId: Types.ObjectId
+  ) {
+    await UserModel.updateOne(
+      { _id: currentUserId },
+      { $pullAll: { following: [userToUnFollowId] } }
+    );
+    await UserModel.updateOne(
+      { _id: userToUnFollowId },
+      { $pullAll: { followers: [currentUserId] } }
+    );
+  }
 }
