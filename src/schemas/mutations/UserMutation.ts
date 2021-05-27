@@ -13,8 +13,6 @@ const addUser = {
   },
   async resolve(parent: any, args: any) {
     const { username, email, password } = args;
-    console.log(args);
-    console.log(typeof args);
     return await user.createUser({ username, email, password });
   },
 };

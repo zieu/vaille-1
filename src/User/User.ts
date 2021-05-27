@@ -118,13 +118,16 @@ export default class User {
     currentUserId: Types.ObjectId,
     userToUnFollowId: Types.ObjectId
   ) {
-    await UserModel.updateOne(
+    await UserModel.findOneAndUpdate(
       { _id: currentUserId },
-      { $pullAll: { following: [userToUnFollowId] } }
-    );
-    await UserModel.updateOne(
+      { $pull: { following: { userToUnFollowId } } },
+      { new: true }
+    ).exec();
+
+    await UserModel.findOneAndUpdate(
       { _id: userToUnFollowId },
-      { $pullAll: { followers: [currentUserId] } }
-    );
+      { $pull: { followers: { currentUserId } } },
+      { new: true }
+    ).exec();
   }
 }
