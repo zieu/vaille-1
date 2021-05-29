@@ -65,7 +65,7 @@ const unFollowUser = {
     userToUnFollowId: { type: GraphQLString },
   },
   async resolve(parent: any, args: any) {
-    return await user.unFollow(args.currentUserId, args.userToUnFollowID);
+    return await user.unFollow(args.currentUserId, args.userToUnFollowId);
   },
 };
 

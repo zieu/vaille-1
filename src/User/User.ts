@@ -114,20 +114,17 @@ export default class User {
     });
   }
 
-  public async unFollow(
-    currentUserId: Types.ObjectId,
-    userToUnFollowId: Types.ObjectId
-  ) {
-    await UserModel.findOneAndUpdate(
+  public async unFollow(currentUserId: string, userToUnFollowId: string) {
+    await UserModel.updateOne(
       { _id: currentUserId },
-      { $pull: { following: { userToUnFollowId } } },
+      { $pull: { following: userToUnFollowId } },
       { new: true }
-    ).exec();
+    );
 
-    await UserModel.findOneAndUpdate(
+    await UserModel.updateOne(
       { _id: userToUnFollowId },
-      { $pull: { followers: { currentUserId } } },
+      { $pull: { followers: currentUserId } },
       { new: true }
-    ).exec();
+    );
   }
 }
