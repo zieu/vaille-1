@@ -1,9 +1,4 @@
-import {
-  GraphQLInputObjectType,
-  GraphQLString,
-  GraphQLList,
-  GraphQLInt,
-} from "graphql";
+import { GraphQLInputObjectType, GraphQLString } from "graphql";
 
 export const PostInputType = new GraphQLInputObjectType({
   name: "PostInputType",
@@ -11,7 +6,5 @@ export const PostInputType = new GraphQLInputObjectType({
     title: { type: GraphQLString },
     body: { type: GraphQLString },
     image: { type: GraphQLString },
-    commnets: { type: new GraphQLList(GraphQLString) },
-    likes: { type: GraphQLInt },
   }),
 });

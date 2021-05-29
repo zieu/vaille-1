@@ -13,7 +13,7 @@ export const PostType: GraphQLObjectType = new GraphQLObjectType({
     title: { type: GraphQLString },
     body: { type: GraphQLString },
     image: { type: GraphQLString },
-    commnets: { type: new GraphQLList(GraphQLString) },
+    comments: { type: new GraphQLList(GraphQLString) },
     likes: { type: GraphQLInt },
     author: { type: UserType },
   }),

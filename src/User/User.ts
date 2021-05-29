@@ -7,7 +7,7 @@ export default class User {
   public async createUser(userData: UserData): Promise<UserClass> {
     const user = new UserClass(userData);
     if (!user.validate()) {
-      throw new Error("User validition failed!");
+      throw new Error("User validation failed!");
     }
 
     const created = await UserModel.create(user);
@@ -19,7 +19,8 @@ export default class User {
     const user = await UserModel.findById(userId)
       .populate("posts")
       .populate("followers")
-      .populate("following");
+      .populate("following")
+      .populate("likedPosts");
 
     if (!user) {
       throw new Error("User id invalid!");
@@ -35,7 +36,8 @@ export default class User {
     const user = await UserModel.findOne({ username })
       .populate("posts")
       .populate("followers")
-      .populate("following");
+      .populate("following")
+      .populate("likedPosts");
 
     if (!user) {
       throw new Error("Invalid username!");
@@ -90,7 +92,7 @@ export default class User {
     });
 
     await this.editUser(userToFollowId, {
-      following: [...userToFollow?.followers!, currentUserId],
+      followers: [...userToFollow?.followers!, currentUserId],
     });
   }
 
@@ -100,7 +102,7 @@ export default class User {
     const user = await this.findUserById(userId);
 
     if (!foundPost || !user) {
-      throw new Error("Invalid credentirals!");
+      throw new Error("Invalid credentials!");
     }
 
     await this.editUser(userId, {
@@ -110,5 +112,19 @@ export default class User {
     await post.updatePost(postId, {
       likes: foundPost.likes! + 1,
     });
+  }
+
+  public async unFollow(currentUserId: string, userToUnFollowId: string) {
+    await UserModel.updateOne(
+      { _id: currentUserId },
+      { $pull: { following: userToUnFollowId } },
+      { new: true }
+    );
+
+    await UserModel.updateOne(
+      { _id: userToUnFollowId },
+      { $pull: { followers: currentUserId } },
+      { new: true }
+    );
   }
 }
