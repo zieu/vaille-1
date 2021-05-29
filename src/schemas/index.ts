@@ -6,6 +6,7 @@ import {
   followUser,
   likePost,
   unFollowUser,
+  unlikePost,
 } from "./mutations/UserMutation";
 import { addPost, deletePostById, updatePost } from "./mutations/PostMutation";
 import { userGetById, userGetByUsername } from "./queries/UserQuery";
@@ -33,6 +34,7 @@ const Mutation = new GraphQLObjectType({
     followUser,
     likePost,
     unFollowUser,
+    unlikePost,
     // Post Mutations
     addPost,
     deletePostById,

@@ -127,4 +127,11 @@ export default class User {
       { new: true }
     );
   }
+
+  public async unlike(userId: string, postId: string) {
+    await UserModel.updateOne(
+      { _id: userId },
+      { $pull: { likedPosts: postId } }
+    );
+  }
 }

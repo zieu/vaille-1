@@ -7,13 +7,10 @@ const user = new User();
 const addUser = {
   type: UserType,
   args: {
-    username: { type: GraphQLString },
-    email: { type: GraphQLString },
-    password: { type: GraphQLString },
+    data: { type: UserInputType },
   },
   async resolve(parent: any, args: any) {
-    const { username, email, password } = args;
-    return await user.createUser({ username, email, password });
+    return await user.createUser(args.data);
   },
 };
 
@@ -69,6 +66,18 @@ const unFollowUser = {
   },
 };
 
+const unlikePost = {
+  // TODO needs to be tested
+  type: UserType,
+  args: {
+    userId: { type: GraphQLString },
+    postId: { type: GraphQLString },
+  },
+  async resolve(parent: any, args: any) {
+    return await user.unlike(args.userId, args.postId);
+  },
+};
+
 export {
   addUser,
   userDeleteById,
@@ -76,4 +85,5 @@ export {
   followUser,
   likePost,
   unFollowUser,
+  unlikePost,
 };
