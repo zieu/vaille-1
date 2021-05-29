@@ -31,7 +31,7 @@ const UserSchema = new Schema(
     },
     password: {
       type: String,
-      requried: true,
+      required: true,
     },
     profilePic: {
       type: String,
